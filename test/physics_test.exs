@@ -32,8 +32,28 @@ defmodule PhysicsTest do
     assert oa == 9.52
   end
 
+  test "orbital acceleration defaults to Earth" do
+    oa = Physics.Rocketry.orbital_acceleration(100)
+    assert oa == 9.52
+  end
+
   test "orbital term for an object at 100km" do
     ot = Physics.Rocketry.orbital_term(Planets.earth, 100)
-    #assert_in_delta ot, 4, 1
+    assert_in_delta ot, 2, 1
+  end
+
+  test "orbital term defaults to Earth" do
+    ot = Physics.Rocketry.orbital_term(100)
+    assert_in_delta ot, 2, 1
+  end
+
+  test "orbital term defaults to Earth" do
+    ot = Physics.Rocketry.orbital_term(100)
+    assert_in_delta ot, 2, 1
+  end
+
+  test "height for a known orbital term matches" do
+    height = Physics.Rocketry.height_for_orbital_term(1.439166)
+    assert_in_delta height, 100, 2
   end
 end
