@@ -35,6 +35,11 @@ defmodule Calcs do
     seconds / 60 / 60
   end
 
+  def hours_to_seconds(hours) do
+    hours * 60 * 60
+  end
+
+  # Thank you, Internet!
   def nth_root(n, x, precision \\ 1.0e-5) do
     f = fn(prev) -> ((n - 1) * prev + x / :math.pow(prev, (n-1))) / n end
     fixed_point(f, x, precision, f.(x))

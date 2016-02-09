@@ -55,7 +55,7 @@ defmodule Physics.Rocketry do
   def height_for_orbital_term(:mars, term), do: height_for_orbital_term(Planets.mars, term)
   def height_for_orbital_term(:moon, term), do: height_for_orbital_term(Planets.moon, term)
   def height_for_orbital_term(planet, term) do
-    (newtons_gravitational_constant * planet.mass * (term |> squared)) / (4 * :math.pi)
+    (newtons_gravitational_constant * planet.mass * (term |> hours_to_seconds |> squared)) / (4 * :math.pi)
       |> cube_root
       |> to_km
   end
