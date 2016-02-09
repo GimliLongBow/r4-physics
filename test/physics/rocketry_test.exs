@@ -98,8 +98,13 @@ defmodule RocketryTest do
 
   # Height for a given orbital term
 
-  test "height for a known orbital term matches" do
+  test "height_for_orbital_term for a known orbital term" do
     height = Physics.Rocketry.height_for_orbital_term(1.439166)
-    #assert_in_delta height, 100, 2
+    assert_in_delta height, 100, 2
+  end
+
+  test "height_for_orbital_term for 4 hours" do
+    height = (Physics.Rocketry.height_for_orbital_term(4) |> Calcs.to_nearest_tenth)
+    assert height == 6420
   end
 end

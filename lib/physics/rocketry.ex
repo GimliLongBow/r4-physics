@@ -50,13 +50,15 @@ defmodule Physics.Rocketry do
       |> seconds_to_hours
   end
 
-  def height_for_orbital_term(term), do: height_for_orbital_term(Planets.earth, term)
-  def height_for_orbital_term(:earth, term), do: height_for_orbital_term(Planets.earth, term)
-  def height_for_orbital_term(:mars, term), do: height_for_orbital_term(Planets.mars, term)
-  def height_for_orbital_term(:moon, term), do: height_for_orbital_term(Planets.moon, term)
-  def height_for_orbital_term(planet, term) do
-    (newtons_gravitational_constant * planet.mass * (term |> hours_to_seconds |> squared)) / (4 * :math.pi)
+  def height_for_orbital_term(hours), do: height_for_orbital_term(Planets.earth, hours)
+  def height_for_orbital_term(:earth, hours), do: height_for_orbital_term(Planets.earth, hours)
+  def height_for_orbital_term(:mars, hours), do: height_for_orbital_term(Planets.mars, hours)
+  def height_for_orbital_term(:moon, hours), do: height_for_orbital_term(Planets.moon, hours)
+  def height_for_orbital_term(planet, hours) do
+    radius_in_meters = (newtons_gravitational_constant * planet.mass * (hours |> hours_to_seconds |> squared)) / (4 * (:math.pi |> squared))
       |> cube_root
+
+    subtract_planet(radius_in_meters, planet.radius)
       |> to_km
   end
 
@@ -65,7 +67,9 @@ defmodule Physics.Rocketry do
       |> square_root
   end
 
-  defp orbital_radius(radius, height) do
-    radius + (height |> to_m)
+  defp orbital_radius(radius_in_m, height_in_km) do
+    radius_in_m + (height_in_km |> to_m)
   end
+
+  defp subtract_planet(total_radius, planet_radius), do: total_radius - planet_radius
 end

@@ -46,12 +46,4 @@ defmodule CalcsTest do
     assert Calcs.hours_to_seconds(5) == 18000
   end
 
-  test "nth_root returns the nth root" do
-    assert Calcs.nth_root(3, 8) == 2
-  end
-
-  test "nth_root returns the best guess for nth root" do
-    assert Calcs.nth_root(3, 12) == 2.2894284851118587
-  end
-
 end
