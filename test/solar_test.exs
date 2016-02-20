@@ -21,31 +21,36 @@ defmodule SolarTest do
   end
 
   test "power for an X class flare is 1000", %{data: flares} do
-    assert Solar.power(hd(flares)) == 99000
+    assert Solar.Flares.power(hd(flares)) == 99000
   end
 
   test "power for an M class flare is 10", %{data: flares} do
-    assert Solar.power(Enum.at(flares, 1)) == 58
+    assert Solar.Flares.power(Enum.at(flares, 1)) == 58
   end
 
   test "power for a C class flare is 1", %{data: flares} do
-    assert Solar.power(Enum.at(flares, 3)) == 3.2
+    assert Solar.Flares.power(Enum.at(flares, 3)) == 3.2
   end
 
   test "no_eva returns only flares with a power < 1000", %{data: flares}  do
-    Enum.each Solar.no_eva(flares), &(assert(Solar.power(&1)) < 1000)
+    Enum.each Solar.Flares.no_eva(flares), &(assert(Solar.Flares.power(&1)) < 1000)
   end
 
   test "no_eva returns three flares < 1000", %{data: flares} do
-    assert length(Solar.no_eva(flares)) == 3
+    assert length(Solar.Flares.no_eva(flares)) == 3
   end
 
   test "deadliest flare", %{data: flares} do
-    assert Solar.deadliest(flares) == 99000
+    assert Solar.Flares.deadliest(flares) == 99000
   end
 
   test "total flare power", %{data: flares} do
-    assert Solar.total_flare_power(flares) == 216911.7
+    assert Solar.Flares.total_flare_power(flares) == 216911.7
+  end
+
+  test "deadly flares", %{data: flares} do
+    #IO.puts Solar.Flares.flare_list(flares)
+    Enum.each Solar.Flares.flare_list(flares), &( if (&1[:power] > 1000), do: assert &1[:is_deadly ] == true)
   end
 
 end
