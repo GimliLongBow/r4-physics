@@ -1,20 +1,13 @@
-# Physics
+# RED:4 Physics Project
 
-**TODO: Add description**
+![](https://travis-ci.org/GimliLongBow/r4-physics.svg?branch=master)
 
-## Installation
+My personal project files from the [RED:4 project](http://www.redfour.io/).
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+## Usage
 
-  1. Add physics to your list of dependencies in `mix.exs`:
+```
+mix test
+```
 
-        def deps do
-          [{:physics, "~> 0.0.1"}]
-        end
-
-  2. Ensure physics is started before your application:
-
-        def application do
-          [applications: [:physics]]
-        end
-
+That's about it!
