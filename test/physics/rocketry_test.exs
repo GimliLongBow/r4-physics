@@ -27,53 +27,33 @@ defmodule RocketryTest do
     assert oa == 9.52
   end
 
-  test "orbital acceleration accepts an atom for Earth" do
-    oa = orbital_acceleration(:earth, 100)
-    assert oa == 9.52
-  end
-
-  test "orbital acceleration accepts an atom for Mars" do
-    oa = orbital_acceleration(:mars, 100)
-    assert oa == 3.56
-  end
-
-  test "orbital acceleration accepts an atom for the Moon" do
-    oa = orbital_acceleration(:moon, 100)
-    assert oa == 1.46
+  test "Orbital acceleration for Jupiter at 100km" do
+    oa = orbital_acceleration(Planets.select[:jupiter], 100)
+    assert oa == 24.66
   end
 
   # Orbital Term
 
   test "orbital term for an object at 100km" do
     ot = orbital_term(Planets.select[:earth], 100)
-    assert_in_delta ot, 2, 1
+    assert_in_delta ot, 1.5, 0.1
   end
 
   test "orbital term defaults to Earth" do
     ot = orbital_term(100)
-    assert_in_delta ot, 2, 1
+    assert_in_delta ot, 1.5, 0.1
   end
 
-  test "orbital term accepts an atom for Earth" do
-    ot = orbital_term(:earth, 100)
-    assert_in_delta ot, 2, 1
-  end
-
-  test "orbital term accepts an atom for Mars" do
-    ot = orbital_term(:mars, 100)
-    assert_in_delta ot, 2, 1
-  end
-
-  test "orbital term accepts an atom for the Moon" do
-    ot = orbital_term(:moon, 100)
-    assert_in_delta ot, 2, 1
+  test "Orbital term for Saturn at 6000km" do
+    ot = orbital_term(Planets.select[:saturn], 6000)
+    assert Calcs.to_nearest_tenth(ot) == 4.9
   end
 
   # Height for a given orbital term
 
   test "height_for_orbital_term for a known orbital term" do
     height = height_for_orbital_term(1.439166)
-    assert_in_delta height, 100, 2
+    assert_in_delta height, 100, 0.5
   end
 
   test "height_for_orbital_term for 4 hours" do
