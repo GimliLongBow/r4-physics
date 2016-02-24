@@ -6,7 +6,7 @@ defmodule RocketryTest do
   # Orbital Speed
 
   test "orbital_speed for a given planet and height in kilometers" do
-    os = orbital_speed(Planets.select[:earth], 100)
+    os = orbital_speed(PlanetList.select[:earth], 100)
     assert os == 7846.404191259335
   end
 
@@ -18,7 +18,7 @@ defmodule RocketryTest do
   # Orbital Acceleration
 
   test "orbital acceleration for Earth at 100km" do
-    oa = orbital_acceleration(Planets.select[:earth], 100)
+    oa = orbital_acceleration(PlanetList.select[:earth], 100)
     assert oa == 9.52
   end
 
@@ -28,14 +28,14 @@ defmodule RocketryTest do
   end
 
   test "Orbital acceleration for Jupiter at 100km" do
-    oa = orbital_acceleration(Planets.select[:jupiter], 100)
+    oa = orbital_acceleration(PlanetList.select[:jupiter], 100)
     assert oa == 24.66
   end
 
   # Orbital Term
 
   test "orbital term for an object at 100km" do
-    ot = orbital_term(Planets.select[:earth], 100)
+    ot = orbital_term(PlanetList.select[:earth], 100)
     assert_in_delta ot, 1.5, 0.1
   end
 
@@ -45,7 +45,7 @@ defmodule RocketryTest do
   end
 
   test "Orbital term for Saturn at 6000km" do
-    ot = orbital_term(Planets.select[:saturn], 6000)
+    ot = orbital_term(PlanetList.select[:saturn], 6000)
     assert Calcs.to_nearest_tenth(ot) == 4.9
   end
 

@@ -11,13 +11,7 @@ defmodule Planets do
   ]
 
   def load do
-    for {name, planet} <- list, into: %{}, do: {name, %{planet | ev: escape_velocity(planet)}}
-  end
-
-  def select, do: load
-
-  defp list do
-    %{
+    planets = %{
       mercury: %Planets{name: "Mercury", type: :rocky, mass: 3.3e23, radius: 2.439e6},
       venus: %Planets{name: "Venus", type: :rocky, mass: 4.86e24, radius: 6.05e6},
       earth: %Planets{name: "Earth", type: :rocky, mass: 5.972e24, radius: 6.37e6},
@@ -28,6 +22,8 @@ defmodule Planets do
       neptune: %Planets{name: "Neptune", type: :gaseous, mass: 1.02e26, radius: 2.47e7},
       moon: %Planets{name: "Moon", type: :rocky, mass: 7.35e22, radius: 1.738e6}
     }
+
+    for {name, planet} <- planets, into: %{}, do: {name, %{planet | ev: escape_velocity(planet)}}
   end
 
   defp escape_velocity(planet) do
@@ -36,4 +32,10 @@ defmodule Planets do
       |> to_km
       |> to_nearest_tenth
   end
+end
+
+defmodule PlanetList do
+  @list Planets.load()
+
+  def select, do: @list
 end
