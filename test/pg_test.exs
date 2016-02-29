@@ -17,13 +17,13 @@ defmodule PGTest do
   end
 
   test "Querying with postgrex", %{data: flares} do
-    {:ok, pid} = Postgrex.Connection.start_link(hostname: "localhost", database: "redfour")
+    {:ok, pid} = Postgrex.Connection.start_link(hostname: "localhost", database: "redfour_test")
     sql = """
     select * from solar_flares
     """
     res = Postgrex.Connection.query!(pid, sql, []) |> transform_result
 
-    IO.inspect res
+    #IO.inspect res
     Postgrex.Connection.stop(pid)
   end
 
