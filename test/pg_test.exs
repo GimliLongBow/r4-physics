@@ -2,7 +2,7 @@ defmodule PGTest do
   use ExUnit.Case
   use Timex
 
-  setup do
+  setup_all do
     flares = [
       %Solar.Flare{classification: :X, scale: 99, date: Date.from({1859, 8, 29})},
       %Solar.Flare{classification: :M, scale: 5.8, date: Date.from({2015, 1, 12})},
@@ -13,17 +13,46 @@ defmodule PGTest do
       %Solar.Flare{classification: :X, scale: 72, date: Date.from({2012, 7, 23})},
       %Solar.Flare{classification: :X, scale: 45, date: Date.from({2003, 11, 4})},
     ]
-    {:ok, data: flares}
+
+    {:ok, pid} = Postgrex.Connection.start_link(hostname: "localhost", database: "redfour_test")
+
+    # Erase the flares, just in case:
+    drop_sql = """
+    DROP TABLE IF EXISTS solar_flares;
+    """
+    Postgrex.Connection.query!(pid, drop_sql, [])
+
+    create_sql = """
+    create table solar_flares(
+      id serial primary key,
+      classification char(1) not null,
+      scale decimal(4,2) not null,
+      date timestamptz not null
+    );
+    """
+    Postgrex.Connection.query!(pid, create_sql, [])
+
+    sql = """
+    insert into solar_flares(classification, scale, date)
+    values($1, $2, $3);
+    """
+
+    Enum.map flares, fn(flare) ->
+      ts = %Postgrex.Timestamp{year: flare.date.year, month: flare.date.month, day: flare.date.day}
+      Postgrex.Connection.query!(pid, sql, [Atom.to_string(flare.classification), flare.scale, ts])
+    end
+
+    Postgrex.Connection.stop(pid)
   end
 
-  test "Querying with postgrex", %{data: flares} do
+  test "Querying with postgrex" do
     {:ok, pid} = Postgrex.Connection.start_link(hostname: "localhost", database: "redfour_test")
     sql = """
     select * from solar_flares
     """
     res = Postgrex.Connection.query!(pid, sql, []) |> transform_result
 
-    #IO.inspect res
+    assert length(res) == 8
     Postgrex.Connection.stop(pid)
   end
 

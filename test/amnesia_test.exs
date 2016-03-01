@@ -7,7 +7,7 @@ defmodule AmnesiaTest do
     Amnesia.start
     Physics.Database.create!
 
-    res = Amnesia.transaction! do
+    Amnesia.transaction! do
       planets = [
         %Planet{name: "Mercury", type: :rocky, mass: 3.3e23, radius: 2.439e6},
         %Planet{name: "Venus", type: :rocky, mass: 4.86e24, radius: 6.05e6},
@@ -30,7 +30,7 @@ defmodule AmnesiaTest do
     :ok
   end
 
-  test "It can read the planet using id 1" do
+  test "read ID matches requested ID" do
     p = Amnesia.transaction! do
       Planet.read(1)
     end
@@ -38,7 +38,7 @@ defmodule AmnesiaTest do
     assert p.id == 1
   end
 
-  test "It can read the planet using id 1" do
+  test "requesting ID of 1 returns Mercury" do
     p = Amnesia.transaction! do
       Planet.read(1)
     end
