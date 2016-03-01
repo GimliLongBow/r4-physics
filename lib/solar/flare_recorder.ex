@@ -1,7 +1,7 @@
 defmodule Solar.FlareRecorder do
   use GenServer
 
-  # These are our happy wrappers to the typical GenServer callbacks below.
+  # API. These are our happy wrappers to the typical GenServer callbacks below.
   def start_link do
     GenServer.start_link(__MODULE__,[])
   end
@@ -14,12 +14,12 @@ defmodule Solar.FlareRecorder do
     GenServer.call(pid, :load)
   end
 
-  # These are public, but not recommended to interact directly with.
-  def handle_call(:load, _sender, _state) do
+  # SERVER. These are public, but not recommended to interact directly with.
+  def handle_call(:load, _sender, state) do
     {:reply, get_flares, []}
   end
 
-  def handle_cast({:new, flare}, _state) do
+  def handle_cast({:new, flare}, state) do
     add_flare(flare)
     {:noreply, []}
   end
